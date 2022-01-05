@@ -1,0 +1,2588 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Summary Report</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        *,
+        ::after,
+        ::before {
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-print-color-adjust: exact;
+            font-family: 'Open Sans', sans-serif;
+            font-size: 16px;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #FFF;
+            color: #393939;
+            font-size: 0.875rem;
+        }
+
+        section {
+            page-break-after: always;
+        }
+
+        .container {
+            position: relative;
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            line-height: 1.2;
+        }
+
+        h1,
+        .h1 {
+            font-size: 2rem;
+        }
+
+        h2,
+        .h2 {
+            font-size: 1.5rem;
+        }
+
+        h3,
+        .h3 {
+            font-size: 1.17rem;
+        }
+
+        h4,
+        .h4 {
+            font-size: 1rem;
+        }
+
+        h5,
+        .h5 {
+            font-size: 0.875rem;
+        }
+
+        h6,
+        .h6 {
+            font-size: 0.688rem;
+        }
+
+        .small,
+        small {
+            font-size: 80%;
+            font-weight: 400;
+        }
+		
+		.text-uppercase {
+			text-transform: uppercase;
+		}
+
+        p {
+            margin: 0;
+            margin-bottom: 16px;
+        }
+
+        .table {
+            width: 100%;
+            border: 1px solid #9B9B9B;
+            border-left: 8px solid #0071eb;
+            border-right: 0;
+            border-spacing: 0;
+            font-size: 0.813rem;
+        }
+
+        .table tr:not(:last-child)>td,
+        .table tr:not(:last-child)>th {
+            border-bottom: 1px solid #9B9B9B;
+        }
+
+        .table tr>td,
+        .table tr>th {
+            text-align: left;
+            padding: 10px;
+        }
+		
+		.alert {
+			position: relative;
+			padding: 9px 10px;
+			margin-bottom: 1rem;
+			border: 0.0625rem solid #9B9B9B;
+			border-left: 8px solid #0071eb;
+			font-family: "Open Sans", sans-serif;
+			font-size: 0.813rem;
+			font-weight: 400;
+			height: auto;
+			line-height: 20px; 
+			display: flex;
+		}
+		
+		.alert .alert-title {
+			width: 25%;
+			font-weight: bold;
+		}
+		
+		/*.alert-success {
+			color: #0f5132;
+			background-color: #d1e7dd;
+			border-color: #3c763d;
+		}
+		
+		.alert-warning {
+			color: #664d03;
+			background-color: #fff3cd;
+			border-color: #8b6e37;
+		}
+		
+		.alert-danger {
+			color: #842029;
+			background-color: #f8d7da;
+			border-color: #ac4340;
+		} */
+
+        ul {
+            margin: 10px 0;
+            padding-left: 0;
+            list-style: none;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .helper {
+            font-style: italic;
+            margin-bottom: 0;
+        }
+
+        .d-flex {
+            display: flex;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .align-item-center {
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .row {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            margin-right: -15px;
+            margin-left: -15px;
+        }
+
+        .col,
+        .col-3,
+        .col-4,
+        .col-8,
+        .col-9,
+        .col-12 {
+            position: relative;
+            width: 100%;
+            min-height: 1px;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .col {
+            -ms-flex-preferred-size: 0;
+            flex-basis: 0;
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            max-width: 100%;
+        }
+
+        .col-3 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+
+        .col-4 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 33.333333%;
+            flex: 0 0 33.333333%;
+            max-width: 33.333333%;
+        }
+
+        .col-8 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 66.666667%;
+            flex: 0 0 66.666667%;
+            max-width: 66.666667%;
+        }
+
+        .col-9 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 75%;
+            flex: 0 0 75%;
+            max-width: 75%;
+        }
+
+        .col-12 {
+            -webkit-box-flex: 0;
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+
+
+        .bg-grey {
+            background-color: #F8F8F8;
+        }
+
+        .bg-dark-grey {
+            background-color: #D8D8D8;
+        }
+
+        .bg-white {
+            background-color: #FFFFFF;
+        }
+
+        .score .title {
+            font-size: 0.813rem;
+            margin-bottom: 4px;
+        }
+
+        .score .description {
+            font-size: 0.813rem;
+            margin-top: 6px;
+        }
+
+        .score .rank {
+            font-size: 1.125rem;
+            font-weight: bold;
+            vertical-align: middle;
+        }
+
+        .score .rank-update {
+            font-size: 0.625rem;
+            font-weight: bold;
+            margin: 4px;
+            vertical-align: middle;
+            background: #D8D8D8;
+            padding: 4px 8px;
+            border-radius: 3px;
+        }
+
+        .score .rank-update.positive {
+            color: #155724;
+            background: #d4edda;
+        }
+
+        .score .rank-update.negetive {
+            color: #721c24;
+            background-color: #f8d7da;
+        }
+
+        .score .rank-update.neutral {
+            color: #664d03;
+            background-color: #fff3cd;
+        }
+
+        .main-heading {
+            padding: 20px;
+            flex-direction: column;
+        }
+
+        .main-heading .pre-title {
+            font-size: 0.75rem;
+        }
+
+        .main-heading .logo {
+            padding: 5px 10px;
+            height: 40px;
+        }
+
+        .sub-heading {
+            padding: 4px 20px;
+            justify-content: space-between;
+            height: 38px;
+            /* margin-bottom: 10px; */
+        }
+
+        .section-title>div:first-child {
+            width: 650px;
+            margin-right: 8px;
+        }
+
+        .comparison-details {
+            padding: 20px;
+            margin-bottom: 28px;
+        }
+
+        .comparison-details .comparison-data {
+            margin-right: 56px;
+        }
+
+        .comparison-details .comparison-title {
+            font-size: 0.75rem;
+        }
+
+        .leaderbord {
+            padding: 16px;
+            border-radius: 0;
+            height: 100%;
+        }
+
+        .leaderbord p {
+            line-height: 1.6;
+            width: 75%;
+            margin: 0;
+        }
+
+        .leaderbord .location-details {
+            display: flex;
+            margin: 14px 0;
+        }
+
+        .leaderbord .location-details:last-child {
+            margin-bottom: 8px;
+        }
+
+        .leaderbord .donut {
+            width: 66px;
+            height: 66px;
+            margin-right: 12px;
+        }
+
+        .leaderbord .donut>div {
+            height: 100%;
+        }
+
+        .leaderbord .address {
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        /* Section: Overview */
+        .overview-details {
+            padding: 20px;
+            padding-left: 16px;
+            border-radius: 0;
+            margin-bottom: 30px;
+        }
+
+        /* End Section: Overview */
+
+        /* Section: Maximizer */
+        .table-container {
+            margin: 20px 0;
+        }
+
+        .table-container.high table {
+            /* border-left: 8px solid #d4edda; */
+            border-left: 8px solid #3c763d;
+        }
+
+        .table-container.medium table {
+            /* border-left: 8px solid #fff3cd; */
+            border-left: 8px solid #8b6e37;
+        }
+
+        .table-container.low table {
+            /* border-left: 8px solid #f8d7da; */
+            border-left: 8px solid #ac4340;
+        }
+
+        /* End Section: Maximizer */
+
+        .chart-container {
+            padding: 20px 0;
+            margin: 15px 0;
+        }
+
+        .chart-container .scores .score {
+            padding: 10px;
+        }
+
+        figure.highchart-figure {
+            margin: 0;
+        }
+
+        /* Section: Reviews */
+        .review-score {
+            /* flex: 1; */
+            margin-left: 8px;
+            padding: 12px 10px;
+        }
+
+        .review-score-img {
+            width: 80px;
+            margin-left: 5px;
+        }
+
+        #reviewCountChart {
+            height: 360px;
+        }
+
+        .review-response-chart {
+            height: 200px;
+        }
+
+        /* End Section: Reviews */
+
+        /* Section: LRP */
+        .lrp-info {
+            margin: 20px 0;
+        }
+
+        #lrChart {
+            height: 320px;
+        }
+
+        .lrp-leaderboard {
+            width: 400px;
+            margin: 0 auto;
+        }
+
+        .lrp-leaderboard .location-details {
+            margin: 12px 0;
+        }
+
+        .lrp-keywords {
+            padding: 0 10px;
+        }
+
+        .lrp-scores {
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+
+        .lrp-score {
+            margin-bottom: 10px;
+        }
+
+        .lrp-score .title {
+            text-transform: uppercase;
+        }
+
+        .lrp-score .score-container {
+            padding: 12px;
+            margin-bottom: 6px;
+        }
+
+        .lrp-score .description {
+            font-size: .688rem;
+        }
+
+        #lrMap {
+            height: 100%;
+            min-height: 200px;
+        }
+
+        .lrp-address {
+            width: 240px;
+        }
+
+        .lrp-address .rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 100%;
+            display: inline-flex;
+            background: #0071eb;
+            color: white;
+            align-items: center;
+            justify-content: space-around;
+            margin-right: 4px;
+        }
+
+        .lrp-address a {
+            color: #363636;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .lrp-competitor {
+            padding: 0 10px;
+        }
+
+        .lrp-competitor .score-col {
+            padding: 0 10px;
+            width: 60px;
+            justify-content: flex-start;
+        }
+
+        .lrp-competitor .score-col .score-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+
+        .lrp-competitor .score-col .outrank {
+            color: #e14747;
+        }
+
+        .lrp-competitor .score-col .doesnot-outrank {
+            color: #37c18f;
+        }
+
+        /* End Section: LRP */
+
+        /* GMB */
+        .gmb-card-container {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        .gmb-card {
+            padding: 16px 36px;
+            height: 100%;
+            font-size: 0.75rem;
+        }
+
+        .gmb-card .current-date {
+            margin: 12px 0 20px;
+        }
+
+        .gmb-card .comparison-date {
+            margin-bottom: 10px;
+        }
+
+        .gmb-card .comparison-date:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .gmb-card .comparison-date .value {
+            font-size: 0.813rem;
+        }
+
+        .gmb-card .gmb-card-title {
+            font-size: 1.063rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .gmb-card .gmb-table {
+            margin-bottom: 12px;
+        }
+
+        .gmb-card .gmb-table table {
+            width: 100%;
+        }
+
+        .gmb-card .gmb-table table tr>td:first-child {
+            width: 80%;
+        }
+
+        .gmb-card .gmb-table table tr>td:last-child {
+            width: 20%;
+        }
+
+        .gmb-card .gmb-score {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .gmb-card .gmb-score:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .gmb-card .gmb-score .rank-update {
+            margin: 0;
+            margin-right: 6px;
+        }
+
+        #gmbChart {
+            height: 400px;
+        }
+
+        /* VAC */
+        .vac-overview {
+            padding: 20px;
+            padding-left: 16px;
+            border-radius: 0;
+        }
+
+        #visibilityChart,
+        #accuracyChart,
+        #analysisChart {
+            height: 330px;
+        }
+
+        /* BING */
+        #bingChart {
+            height: 200px;
+        }
+
+        #bingPieChart {
+            height: 350px;
+        }
+
+        /* HEADER  */
+        .header-first {
+            height: 196px;
+            z-index: 100;
+            position: absolute;
+            width: 100%;
+            top: 0;
+        }
+
+        section:first-of-type {
+            margin-top: 200px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <header id="headerFirst" class="header-first">
+            <div class="main-heading row bg-grey">
+                <div class="pre-title bold text-uppercase">@Model.HeaderTitle</div>
+                <div class="d-flex justify-between align-item-center">
+                    <h2 class="title">@Model.HeaderTitle</h2>
+                    <img src="https://res.cloudinary.com/cloudasset/image/upload/w_115,h_52,c_limit/v1604004542/map/images/qfcygj0etjbz2wgfbe9f.png" style="background-color: #323232;" height="30" class="logo" alt="Account Logo" />
+                    <!-- <img src="https://res.cloudinary.com/cloudasset/image/upload/w_115,h_52,c_limit/v1536349225/map/images/ruxwccyxyl7cmkxoymo1.png" style="background-color: #e6203c;" height="30" class="logo" alt="Account Logo" /> -->
+                    <!-- <img src="https://res.cloudinary.com/cloudasset/image/upload/w_115,h_52,c_limit/v1531320011/map/images/ivlwlcbjcxtp6jrtv8vc.png"
+                        style="background-color: #323232;" height="30" class="logo" alt="Account Logo" /> -->
+                </div>
+                <div>4 Bunker Hill Industrial Park, Auburn, MA 01501</div>
+            </div>
+
+            <div class="comparison-details bg-dark-grey row">
+                <div class="comparison-data">
+                    <div class="comparison-title">Current Data</div>
+                    <strong>@Model.CurrentData</strong>
+                </div>
+                <div class="comparison-data">
+                    <div class="comparison-title">Comparison Data</div>
+                    <strong>@Model.ComparisonData</strong>
+                </div>
+                <div class="comparison-data">
+                    <div class="comparison-title">Comparison Timeframe</div>
+                    <strong>@Model.ComparisonTimeframe</strong>
+                </div>
+            </div>
+        </header>
+
+        <header class="header-normal">
+            <div class="sub-heading row bg-dark-grey">
+                <h3 class="h6"><strong>@Model.CompanyName:</strong> 4 Bunker Hill Industrial Park, Auburn, MA 01501
+                </h3>
+                <h3 class="h6 bold">@Model.CurrentData</h3>
+            </div>
+        </header>
+
+
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <td>
+                        <div class="header-space">&nbsp;</div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div>
+                            <section id="overview">
+                                <h2>Overview</h2>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Locations
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.Locations</span>
+                                                <span class="rank-update neutral">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+									<div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Maximizer
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.Maximizer</span>
+                                                <span class="rank-update neutral">0%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Visibility
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.Visibility</span>
+                                                <span class="rank-update negetive">-1.28%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Accuracy
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.Accuracy</span>
+                                                <span class="rank-update negetive">-0.4%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Content Analysis
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.ContentAnalysis</span>
+                                                <span class="rank-update negetive">-2.84%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+									<div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Bing Total Impressions
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.BingTotalImpressions</span>
+                                                <span class="rank-update positive">+2349</span>
+                                            </div>
+                                        </div>
+                                    </div>
+									<div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Review Net Promoter Score
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">-45.95%</span>
+                                                <span class="rank-update negetive">-12.05%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Reviews
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.Reviews</span>
+                                                <span class="rank-update negetive">-2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Star Rating
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.StarRating</span>
+                                                <span class="rank-update positive">+0.1</span>
+                                            </div>
+                                        </div>
+                                    </div>
+									<div class="col-4">
+                                        <div class="overview-details bg-grey score">
+                                            <div class="title">
+                                                Local Rank+
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">@Model.LocalRank</span>
+                                                <span class="rank-update negetive">-9.39</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row">
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Top Locations</h3>
+                                            <p>
+                                                Your best-performing locations averaged across all metrics
+                                            </p>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="top1"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>The Little Beet3</strong><br>
+                                                    845 N State St Ste 101 <br>
+                                                    Illinois, 60610
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="top2"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>The Little Beet Table</strong><br>
+                                                    333 Park Ave S <br>
+                                                    New York, 10010
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="top3"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>McDonald's3</strong><br>
+                                                    Shop no 9/418A1A<br>
+                                                    Group Mukkadan Grand Central<br>
+                                                    Kochi <br>
+                                                    Kerala, IN 682030
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Bottom Locations</h3>
+                                            <p>
+                                                Your best-performing locations averaged across all metrics
+                                            </p>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="bottom1"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>Fields Good Chicken</strong><br>
+                                                    26 East<br>
+                                                    New York, MA 10016
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="bottom2"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>Make Sandwich</strong><br>
+                                                    135 4th Avenue <br>
+                                                    New York, NY 10003
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="bottom3"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>McDonald's</strong><br>
+                                                    Mimar Hayrettin Mahallesi<br>
+                                                    İstanbul, MA 34130
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+
+                            </section>
+
+							<section id="maximizerAccount">
+								<div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Maximizer</h2>
+                                        <p>
+                                            We've found some opportunities for you to improve your location performance
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/Maximizer/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+								
+								<div class="row">
+									<div class="col-4">
+										<div class="overview-details bg-dark-grey score">
+												<div class="title">
+													To Complete
+												</div>
+												<div class="details">
+													<span class="rank">33</span>
+													<!-- <span class="rank-update neutral">0</span> -->
+												</div>
+											</div>
+									</div>
+									
+									<div class="col-4">
+										<div class="overview-details bg-grey score">
+												<div class="title">
+													To Do
+												</div>
+												<div class="details">
+													<span class="rank">23</span>
+													<!-- <span class="rank-update neutral">0</span> -->
+												</div>
+											</div>
+									</div>
+									
+									<div class="col-4">
+										<div class="overview-details bg-grey score">
+												<div class="title">
+													Completed
+												</div>
+												<div class="details">
+													<span class="rank">3</span>
+													<!-- <span class="rank-update neutral">0</span> -->
+												</div>
+											</div>
+									</div>
+									
+									<div class="col-4">
+										<div class="overview-details bg-grey score">
+												<div class="title">
+													In Progress
+												</div>
+												<div class="details">
+													<span class="rank">10</span>
+													<!-- <span class="rank-update neutral">0</span> -->
+												</div>
+											</div>
+									</div>
+									
+									<div class="col-4">
+										<div class="overview-details bg-grey score">
+												<div class="title">
+													Ignored
+												</div>
+												<div class="details">
+													<span class="rank">14</span>
+													<!-- <span class="rank-update neutral">0</span> -->
+												</div>
+											</div>
+									</div>
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Local Rank+</span> You do not have Local Rank+ active for 5 location(s).
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Local Rank+ Star Rating</span> 2 location(s) have a lower average star rating than their top competitors.
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Photos</span> 3 location(s) missing supporting photos.
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Pinterest URL</span> 6 location(s) missing a Pinterest URL. Please enter a Pinterest URL where applicable.
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Date Founded</span> 8 location(s) missing the date your business was founded. Please enter dates for each location.
+								</div>
+							</section>
+							
+							<section id="maximizerLocation">
+								<div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Maximizer</h2>
+                                        <p>
+                                            We've found some opportunities for you to improve your location performance
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/Maximizer/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+								
+								<div class="alert">
+									<span class="alert-title">Local Rank+</span> You do not have Local Rank+ active for this location.
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Local Rank+ Star Rating</span> This location has a lower average star rating than its top competitors.
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Photos</span> This location is missing supporting photos.
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Pinterest URL</span> This location is missing a Pinterest URL. Please enter a Pinterest URL where applicable.
+								</div>
+								
+								<div class="alert">
+									<span class="alert-title">Date Founded</span> This location is missing the date your business was founded. Please enter a date for this location.
+								</div>
+							</section>
+
+                            <!-- <section id="maximizer">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Maximizer</h2>
+                                        <p>
+                                            We've found some opportunities for you to improve your location performance
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/Maximizer/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="table-container high">
+                                    <h3 class="bold h6">HIGH IMPACT</h5>
+
+                                        <table class="table">
+                                            <tr>
+                                                <th style="width: 200px;">Local Rank+</th>
+                                                <td>You do not have Local Rank+ active for 5 location(s)</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Local Rank+ Star Rating</th>
+                                                <td>2 location(s) have a lower average star rating than their top
+                                                    competitors.</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Photos</th>
+                                                <td>3 location(s) missing supporting photos</td>
+                                            </tr>
+                                        </table>
+                                </div>
+
+                                <div class="table-container medium">
+                                    <h3 class="bold h6">MEDIUM IMPACT</h5>
+
+                                        <table class="table">
+                                            <tr>
+                                                <th style="width: 200px;">Pinterest URL</th>
+                                                <td>6 location(s) missing a Pinterest URL. Please enter a Pinterest URL
+                                                    where applicable.
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <th>LinkedIn URL</th>
+                                                <td>6 location(s) missing a LinkedIn URL. Please enter a LinkedIn URL
+                                                    where
+                                                    applicable.</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Languages Supported</th>
+                                                <td>1 location(s) missing supported languages. Please enter supported
+                                                    languages for each
+                                                    location.</td>
+                                            </tr>
+                                        </table>
+                                </div>
+
+                                <div class="table-container low">
+                                    <h3 class="bold h6">LOW IMPACT</h5>
+
+                                        <table class="table">
+                                            <tr>
+                                                <th style="width: 200px;">Date Founded</th>
+                                                <td>8 location(s) missing the date your business was founded. Please
+                                                    enter
+                                                    dates for each
+                                                    location.</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Review Assistant</th>
+                                                <td>5 location(s) do not have Respond to Reviews Assistant active.</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Product Photos</th>
+                                                <td>8 location(s) missing product photos. Please upload a minimum of 3
+                                                    unique product photos
+                                                    for each location.</td>
+                                            </tr>
+                                        </table>
+                                </div>
+
+                            </section> -->
+
+                            <!-- <header>
+                            <div class="sub-heading row bg-dark-grey">
+                                <h3 class="h6"><strong>Casella Waste Systems:</strong> 4 Bunker Hill Industrial Park, Auburn, MA 01501</h3>
+                                <h3 class="h6 bold">October 31, 2021</h3>
+                            </div>
+                        </header> -->
+                            <section id="gmb">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Google My Business</h2>
+                                        <p>
+                                            The total number of Insight available data that occurred for the Google
+                                            listings. Reporting will
+                                            generally not be the most recent week, month or quarter. This is due to a
+                                            lag in
+                                            data becoming
+                                            available. Dates will reflect the most recent data available.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/GoogleMyBusiness/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4 gmb-card-container">
+                                        <div class="bg-grey gmb-card">
+                                            <div class="gmb-card-title">
+                                                <div>Actions</div>
+                                                <div>1877</div>
+                                            </div>
+
+                                            <div class="gmb-table">
+                                                <table>
+                                                    <tr>
+                                                        <td>Website Visits</td>
+                                                        <td>839</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Request Directions</td>
+                                                        <td>927</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Phone Calls</td>
+                                                        <td>111</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="gmb-score score">
+                                                <span class="rank-update negetive">-645</span>
+                                                <span class="">from last month</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4 gmb-card-container">
+                                        <div class="bg-grey gmb-card">
+                                            <div class="gmb-card-title">
+                                                <div>Searches</div>
+                                                <div>400,543</div>
+                                            </div>
+
+                                            <div class="gmb-table">
+                                                <table>
+                                                    <tr>
+                                                        <td>Direct</td>
+                                                        <td>63,095</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Discovery</td>
+                                                        <td>312,912</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Branded</td>
+                                                        <td>24,536</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="gmb-score score">
+                                                <span class="rank-update negetive">-124,473</span>
+                                                <span class="">from last month</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4 gmb-card-container">
+                                        <div class="bg-grey gmb-card">
+                                            <div class="gmb-card-title">
+                                                <div>Views</div>
+                                                <div>565,655</div>
+                                            </div>
+
+                                            <div class="gmb-table">
+                                                <table>
+                                                    <tr>
+                                                        <td>Search</td>
+                                                        <td>74,025</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Maps</td>
+                                                        <td>491,630</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="gmb-score score">
+                                                <span class="rank-update negetive">-181,536</span>
+                                                <span class="">from last month</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="chart-container row">
+                                    <figure class="col highchart-figure">
+                                        <div id="gmbChart"></div>
+                                    </figure>
+                                </div>
+
+
+                            </section>
+
+                            <!-- <header>
+                            <div class="sub-heading row bg-dark-grey">
+                                <h3 class="h6"><strong>Casella Waste Systems:</strong> 4 Bunker Hill Industrial Park, Auburn, MA 01501</h3>
+                                <h3 class="h6 bold">October 31, 2021</h3>
+                            </div>
+                        </header> -->
+                            <section id="visibility">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Visibility</h2>
+                                        <p>
+                                            Percentage of listings found online out of all possible listings available.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/VaReport/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="vac-overview bg-grey score">
+                                            <div class="title">
+                                                Visibility Score
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">50.74%</span>
+                                                <span class="rank-update negetive">-1.28%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="vac-overview bg-grey score">
+                                            <div class="title">
+                                                Locations
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">96</span>
+                                                <span class="rank-update neutral">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="chart-container bg-grey row">
+                                    <img src="data:image/png;base64,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" data-deferred="1" class="rg_i Q4LuWd" jsname="Q4LuWd" width="100%" height="172" alt="React Column Chart Examples – ApexCharts.js" data-iml="1878.3999999761581" data-atf="true">
+
+                                    <div class="scores col-12 d-flex justify-between">
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">92%</span>
+                                                <span class="rank-update positive">+4</span>
+                                            </div>
+                                            <div class="description">
+                                                Google
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">45%</span>
+                                                <span class="rank-update negetive">-15%</span>
+                                            </div>
+                                            <div class="description">
+                                                Bing
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">0%</span>
+                                                <span class="rank-update negetive">-55%</span>
+                                            </div>
+                                            <div class="description">
+                                                Facebook
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">36%</span>
+                                                <span class="rank-update negetive">-8%</span>
+                                            </div>
+                                            <div class="description">
+                                                Superpages
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">25%</span>
+                                                <span class="rank-update positive">+10%</span>
+                                            </div>
+                                            <div class="description">
+                                                Yahoo
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">36%</span>
+                                                <span class="rank-update neutral">0%</span>
+                                            </div>
+                                            <div class="description">
+                                                YP.com
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">0%</span>
+                                                <span class="rank-update negetive">-20%</span>
+                                            </div>
+                                            <div class="description">
+                                                YP.ca
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row">
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Top Locations</h3>
+                                            <p>
+                                                Your best-performing locations based on Visibility
+                                            </p>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="vtop1"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>The Little Beet3</strong><br>
+                                                    845 N State St Ste 101 <br>
+                                                    Illinois, 60610
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="vtop2"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>The Little Beet Table</strong><br>
+                                                    333 Park Ave S <br>
+                                                    New York, 10010
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="vtop3"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>McDonald's3</strong><br>
+                                                    Shop no 9/418A1A<br>
+                                                    Group Mukkadan Grand Central<br>
+                                                    Kochi <br>
+                                                    Kerala, IN 682030
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Bottom Locations</h3>
+                                            <p>
+                                                Your worst-performing locations based on Visibility
+                                            </p>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="vbottom1"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>Fields Good Chicken</strong><br>
+                                                    26 East<br>
+                                                    New York, MA 10016
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="vbottom2"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>Make Sandwich</strong><br>
+                                                    135 4th Avenue <br>
+                                                    New York, NY 10003
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="vbottom3"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>McDonald's</strong><br>
+                                                    Mimar Hayrettin Mahallesi<br>
+                                                    İstanbul, MA 34130
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                            </section>
+
+                            <!-- <header>
+                            <div class="sub-heading row bg-dark-grey">
+                                <h3 class="h6"><strong>Casella Waste Systems:</strong> 4 Bunker Hill Industrial Park, Auburn, MA 01501</h3>
+                                <h3 class="h6 bold">October 31, 2021</h3>
+                            </div>
+                        </header> -->
+                            <section id="accuracy">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Accuracy</h2>
+                                        <p>
+                                            Accuracy of name, address, and phone number across the found listings.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/AccuracyReport/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="vac-overview bg-grey score">
+                                            <div class="title">
+                                                Accuracy Score
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">90.91%</span>
+                                                <span class="rank-update negetive">-0.4%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="vac-overview bg-grey score">
+                                            <div class="title">
+                                                Locations
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">96</span>
+                                                <span class="rank-update neutral">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="chart-container bg-grey row">
+                                    <figure class="chart col-12 highchart-figure">
+                                    <img src="data:image/png;base64,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" data-deferred="1" class="rg_i Q4LuWd" jsname="Q4LuWd" width="100%" height="172" alt="React Column Chart Examples – ApexCharts.js" data-iml="1878.3999999761581" data-atf="true">
+                                    </figure>
+
+                                    <div class="scores col-12 d-flex justify-between">
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">86.4%</span>
+                                                <span class="rank-update negetive">-12%</span>
+                                            </div>
+                                            <div class="description">
+                                                Google
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">99.9%</span>
+                                                <span class="rank-update neutral">0%</span>
+                                            </div>
+                                            <div class="description">
+                                                Bing
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">92.9%</span>
+                                                <span class="rank-update positive">+2.9%</span>
+                                            </div>
+                                            <div class="description">
+                                                Superpages
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">93.7%</span>
+                                                <span class="rank-update positive">+5.7%</span>
+                                            </div>
+                                            <div class="description">
+                                                Yahoo
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">93.6%</span>
+                                                <span class="rank-update negetive">-1.4%</span>
+                                            </div>
+                                            <div class="description">
+                                                YP.com
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row">
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Top Locations</h3>
+                                            <p>
+                                                Your best-performing locations based on Accuracy
+                                            </p>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="atop1"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>The Little Beet3</strong><br>
+                                                    845 N State St Ste 101 <br>
+                                                    Illinois, 60610
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="atop2"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>The Little Beet Table</strong><br>
+                                                    333 Park Ave S <br>
+                                                    New York, 10010
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="atop3"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>McDonald's3</strong><br>
+                                                    Shop no 9/418A1A<br>
+                                                    Group Mukkadan Grand Central<br>
+                                                    Kochi <br>
+                                                    Kerala, IN 682030
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Bottom Locations</h3>
+                                            <p>
+                                                Your worst-performing locations based on Accuracy
+                                            </p>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="abottom1"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>Fields Good Chicken</strong><br>
+                                                    26 East<br>
+                                                    New York, MA 10016
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="abottom2"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>Make Sandwich</strong><br>
+                                                    135 4th Avenue <br>
+                                                    New York, NY 10003
+                                                </div>
+                                            </div>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="abottom3"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>McDonald's</strong><br>
+                                                    Mimar Hayrettin Mahallesi<br>
+                                                    İstanbul, MA 34130
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+
+                            </section>
+
+                            <!-- <header>
+                            <div class="sub-heading row bg-dark-grey">
+                                <h3 class="h6"><strong>Casella Waste Systems:</strong> 4 Bunker Hill Industrial Park, Auburn, MA 01501</h3>
+                                <h3 class="h6 bold">October 31, 2021</h3>
+                            </div>
+                        </header> -->
+                            <section id="contentAnalysis">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Content Analysis</h2>
+                                        <p>
+                                            How complete listing data is across sites being monitored.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/AnalysisReport/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-4">
+                                        <div class="vac-overview bg-grey score">
+                                            <div class="title">
+                                                Content Analysis Score
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">87.96%</span>
+                                                <span class="rank-update negetive">-2.84%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="vac-overview bg-grey score">
+                                            <div class="title">
+                                                Locations
+                                            </div>
+                                            <div class="details">
+                                                <span class="rank">96</span>
+                                                <span class="rank-update neutral">0</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="chart-container bg-grey row">
+                                    <figure class="chart col-12 highchart-figure">
+                                        <div id="analysisChart" class="">
+                                            <img src="data:image/png;base64,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" data-deferred="1" class="rg_i Q4LuWd" jsname="Q4LuWd" width="100%" height="172" alt="React Column Chart Examples – ApexCharts.js" data-iml="1878.3999999761581" data-atf="true">
+                                        </div>
+                                    </figure>
+
+                                    <div class="scores col-12 d-flex justify-between">
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">85%</span>
+                                                <span class="rank-update negetive">-10%</span>
+                                            </div>
+                                            <div class="description">
+                                                Google
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">88%</span>
+                                                <span class="rank-update positive">+5%</span>
+                                            </div>
+                                            <div class="description">
+                                                Bing
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">90%</span>
+                                                <span class="rank-update negetive">-4%</span>
+                                            </div>
+                                            <div class="description">
+                                                Superpages
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">88.84%</span>
+                                                <span class="rank-update negetive">-2.36%</span>
+                                            </div>
+                                            <div class="description">
+                                                Yahoo
+                                            </div>
+                                        </div>
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">94.83%</span>
+                                                <span class="rank-update positive">+2.57%</span>
+                                            </div>
+                                            <div class="description">
+                                                YP.com
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row">
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Top Locations</h3>
+                                            <p>
+                                                Your best-performing locations based on Content Analysis
+                                            </p>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="catop1"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>The Little Beet3</strong><br>
+                                                    845 N State St Ste 101 <br>
+                                                    Illinois, 60610
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="catop2"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>The Little Beet Table</strong><br>
+                                                    333 Park Ave S <br>
+                                                    New York, 10010
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="catop3"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>McDonald's3</strong><br>
+                                                    Shop no 9/418A1A<br>
+                                                    Group Mukkadan Grand Central<br>
+                                                    Kochi <br>
+                                                    Kerala, IN 682030
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Bottom Locations</h3>
+                                            <p>
+                                                Your worst-performing locations based on Content Analysis
+                                            </p>
+
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="cabottom1"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>Fields Good Chicken</strong><br>
+                                                    26 East<br>
+                                                    New York, MA 10016
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="cabottom2"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>Make Sandwich</strong><br>
+                                                    135 4th Avenue <br>
+                                                    New York, NY 10003
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <figure class="highchart-figure donut">
+                                                    <div id="cabottom3"></div>
+                                                </figure>
+                                                <div class="address">
+                                                    <strong>McDonald's</strong><br>
+                                                    Mimar Hayrettin Mahallesi<br>
+                                                    İstanbul, MA 34130
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+                            </section>
+
+                            <!-- <header>
+                            <div class="sub-heading row bg-dark-grey">
+                                <h3 class="h6"><strong>Casella Waste Systems:</strong> 4 Bunker Hill Industrial Park, Auburn, MA 01501</h3>
+                                <h3 class="h6 bold">October 31, 2021</h3>
+                            </div>
+                        </header> -->
+                            <section id="bing">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Bing Places for Business</h2>
+                                        <p>
+                                            The total number of impressions for the Bing listings. Reporting data is
+                                            only
+                                            available in
+                                            weekly segments so lags in data or
+                                            non-true months and quarters can and will be displayed.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/BingPlacesForBusiness/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+
+                                <div class="chart-container bg-grey row">
+                                    <div class="scores col-3">
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">10,758</span>
+                                                <span class="rank-update positive">+2349</span>
+                                            </div>
+                                            <div class="description">
+                                                Total Impressions
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <figure class="chart col-9 highchart-figure">
+                                        <div id="bingChart">
+                                            <img src="data:image/png;base64,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" data-deferred="1" class="rg_i Q4LuWd" jsname="Q4LuWd" width="100%" height="172" alt="React Column Chart Examples – ApexCharts.js" data-iml="1878.3999999761581" data-atf="true">
+                                        </div>
+                                    </figure>
+                                </div>
+
+
+
+                            </section>
+
+                            <!-- <header>
+                            <div class="sub-heading row bg-dark-grey">
+                                <h3 class="h6"><strong>Casella Waste Systems:</strong> 4 Bunker Hill Industrial Park, Auburn, MA 01501</h3>
+                                <h3 class="h6 bold">October 31, 2021</h3>
+                            </div>
+                        </header> -->
+                            <section id="reviews">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Reviews</h2>
+                                        <p>
+                                            Average rating & count of reviews during the time period. The number of
+                                            locations include only
+                                            those with new reviews in this time period.
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Review/ReviewReport"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+								
+								<div class="chart-container bg-grey row">
+									<div class="scores col-12">
+										<div class="score">
+                                            <div class="details">
+                                                <span class="rank">-45.95%</span>
+                                                <span class="rank-update negetive">-12.05%</span> Are likely to recommend you
+                                            </div>
+                                            <div class="description">
+                                                Review Net Promoter Score
+                                            </div>
+                                        </div>
+									</div>
+								</div>
+
+                                <div class="chart-container bg-grey row">
+                                    <div class="scores col-3">
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">53</span>
+                                                <span class="rank-update positive">+31</span>
+                                            </div>
+                                            <div class="description">
+                                                Total Review Count
+                                            </div>
+                                        </div>
+
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">2.1</span>
+                                                <span class="rank-update negetive">-0.1</span>
+                                            </div>
+                                            <div class="description">
+                                                <div>
+                                                    <img src="https://coreservicesemail.blob.core.windows.net/icons/stars/2-stars@2x.png"
+                                                        width="120" alt="2 Stars">
+                                                </div>
+                                                Average Star Rating
+                                            </div>
+                                        </div>
+
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">23</span>
+                                                <span class="rank-update positive">+12</span>
+                                            </div>
+                                            <div class="description">
+                                                Total Positive Reviews <br>
+                                                (5 Stars, 4 Stars, Recommended)
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <figure class="chart col-9 highchart-figure">
+                                        <div id="reviewCountChart">
+                                            <img src="data:image/png;base64,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" data-deferred="1" class="rg_i Q4LuWd" jsname="Q4LuWd" width="100%" height="172" alt="React Column Chart Examples – ApexCharts.js" data-iml="1878.3999999761581" data-atf="true">
+                                        </div>
+                                    </figure>
+                                </div>
+
+                                <div class="chart-container bg-grey row">
+                                    <div class="scores col-3">
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">20%</span>
+                                                <span class="rank-update positive">+8%</span>
+                                            </div>
+                                            <div class="description">
+                                                Review Response Rate
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <figure class="chart col-9 highchart-figure">
+                                        <div id="reviewResponseChart" class="review-response-chart">
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASYAAACsCAMAAADhRvHiAAAA6lBMVEX////XMOv/YHcm56Vtg40mn/uLdddGs6n+uzv39/fv7+/VGurWIer43fv/U2376/3/ZXv/3uP/8PLCy9AO5qHN+ehmfYjS5/4Bmvvn6uuDa9X08vvp5vcwraLe8O/2+/v/79P+tyf//PPms+5p7LkAmPvX0PGk1dBS5q+ElJxnu7P+v0RSq/f6wl77eYqbidnZV+nh7/6ztbaoqquanZ7c3d2Qk5S8vb7Nzs/CzdLd3t7y0dbr0O7t3e92enuDhof/S2dkaWrB7dzx4uR8YtPw7OTc2OlD5av7fY6di9nYTOmmtLt6fX9UWVsR30aSAAAFTklEQVR4nO2dC3vbNBSGxbhs1uiglLFq7UgZt3EHSbYUAzEFtsFW/v/fQUmT1Lo4PvOTxo7zvW2f5rFP5ePXx4pTWzZjAAAAAAAAgF6w+fwbbEZYnUsp+k5j8IjClLntO4uhUwpjrCkXrzN+kJx/7nO2mpHVPEnDjOlnEw2Eo/s+H/Sd0DA5ev+tOtCUBppIQBMJaCIBTSSgicTANWXHPn3lMXBNx388qHPno57yGLqmB3fqfAhNSaCJBDSRgCYS0EQCmkhAEwloIgFNJKCJBDSRgCYSe6WpFIz1c9J3nzSVUvP8cuepzdknTYxpLtWOE7tmrzRpbtUlX7zMdsok0rTb5a/ziDRNlnNqlnKtMrY8Ob7j9AaraTXntsuYxl7tdP0BTSSgiQQ0kYAmEtBEAppIHICmh194POvSxiFo+tinSxsHoentOtCUBpock1984ojBaBI+XZrorOnRlz5xxFA0iU98unyq767p9F2POGI4mt6p06um0zgCmhiqiQg0kYAmEtBEAl04CVQTCWiKF2SZlME0aIrQkivF/WnQFMEl1xqaWnc6mRtzfVuL9QD78J0uHpT+Z6Cpy8D2XwNNf3VoIw80iQ5t/BZo+n01w3POWV4G6lBNJKCJBDSRgCYS0EQCmkhAEwn8h4DEUKrp7CufWAI0Oc7/fuxxFkVAk+P88Xse0ARNTUATCWgiAU0koInE2DT1dhS+X5pQTWmgiQQ0kUDfRGJM1TT52mcSRdA0ZSwarjkmTZ8+uVvnSUdNUnI91JPjW9F0dyuarGRMBddTQ1MEl0wu79G/HkwdaoqHW4eauozYDk+OxyPHI01RRBlo4lFEqCmKmIQnx5Mjx7kpZ4pv1HQar+M2NEXVNAlD2jWF1dRFE+U+BEmw05GAJhLQRGJMR+GoJgZNC6CJQRORsWnq1IVf3PvO42kUMTZNnarp4rN7HtAETdC0ga30TQenCdWUBppIQBMJaCIBTSSgiQQ0kYAmEtBEAkfhKaJHjqOaEghlbuEagtFpsrdyqcX4NDkWL7Y6wD7U9DyKaB9g/yLQdB5FtA+wDzXFEbQB9ix+gj2qiQQ0kYAmEtBEAppI4CicBKqJBDSRgCYS6JtIoJpIQBMJaCIBTSTQhZNANZGAJhLQRAKaSKALJ4FqIgFNJKApRRk+YQqaEoi2u8+jC59jy/Bai1Fpar9dw32aJmuXd59f8eh7n3jY98OXz+q8jCMufvB5GkUc/+jxT2KA/U8e/yZGjn/jkxg5/q1PnOnRq5/rvGp6NLtaPhkjP1kyDVhPfz1tCIkjwjamcYQfczJdTW5dSnvE9PVJa8RNcz7r6Z0eCjjnZCcR0y1EbCOPzgxF027y6Ez77ZHGFAEAGCDK/YSXrgZEVwCn2rDNb6tlsfiVhRfr1dC6mOewYUHikuV6UxJ8ppcHPK4V2dAjlZYJuyGPRlSppNTSKtUYYq1UwsjwmT83aK6UsSZX6dWUikuldXmlhFRZlSdCCm6MVHnlmpDpRMSlW4h1X8qKVAtMGKZyqa0wplRXDZpy40xJk7Vt+ICMKe1WI3OSGjVluZGZrqIrN2/a0EIW5r+sMuk23GbWTOfGZIV265kKKaQpC2WNNrqhZErlNqeVWrnYpINrTdV8q7v1adbk8tDmDY8o80Jb6ZarN2jSlXBroGXTFuBFZXWlykKmC8FYVhRzTVeuFWc0FeN2S+dQVK6kmjQZV2qVKRSz6Qgxm1dbxYvc7RqzJk2VNFKKWcOqNJIRDiyylrD1zLaWWhaWtTcxn62a9/7Vn7e0Yt5wn9tLOn8EW7PBMwAAAAAAaOF/1uM1ATg7AXsAAAAASUVORK5CYII=" data-deferred="1" class="rg_i Q4LuWd" jsname="Q4LuWd" width="100%" height="172" alt="React Column Chart Examples – ApexCharts.js" data-iml="1878.3999999761581" data-atf="true">
+                                        </div>
+                                    </figure>
+                                </div>
+
+                                                                <!-- <div class="page-break">&nbsp;</div> -->
+
+                                <!-- <div class="row">
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Top Locations</h3>
+
+                                            <div class="location-details">
+                                                <div class="address">
+                                                    <strong>Neural Turing Tech - Skymark</strong><br>
+                                                    85 Skymark Dr<br>Toronto ON M2H 3S6
+                                                </div>
+                                                <div class="bg-white review-score">
+                                                    <span class="h4 bold">4.5</span>
+                                                    <img src="https://coreservicesemail.blob.core.windows.net/icons/stars/4-stars@2x.png"
+                                                        width="80" alt="4 Stars" class="review-score-img">
+                                                    <div class="small">
+                                                        8 reviews
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <div class="address">
+                                                    <strong>Neural Turing Tech - Greensides</strong><br>
+                                                    84 Greensides Ave<br>Toronto ON M6G 3P7
+                                                </div>
+                                                <div class="bg-white review-score">
+                                                    <span class="h4 bold">4.4</span>
+                                                    <img src="https://coreservicesemail.blob.core.windows.net/icons/stars/4-stars@2x.png"
+                                                        width="80" alt="4 Stars" class="review-score-img">
+                                                    <div class="small">
+                                                        5 reviews
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <div class="address">
+                                                    <strong>Neural Turing Tech - Benson</strong><br>
+                                                    Benson Avenue<br>
+                                                    Lower Level<br>
+                                                    Toronto ON M6G 2H6
+                                                </div>
+                                                <div class="bg-white review-score">
+                                                    <span class="h4 bold">4.6</span>
+                                                    <img src="https://coreservicesemail.blob.core.windows.net/icons/stars/4-stars@2x.png"
+                                                        width="80" alt="4 Stars" class="review-score-img">
+                                                    <div class="small">
+                                                        2 reviews
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="leaderbord bg-grey">
+                                            <h3 class="bold">Bottom Locations</h3>
+
+                                            <div class="location-details">
+                                                <div class="address">
+                                                    <strong>Ancient Natural Remedies</strong><br>
+                                                    318 Richmond St West505 <br>
+                                                    Toronto ON M5V 0B4
+                                                </div>
+                                                <div class="bg-white review-score">
+                                                    <span class="h4 bold">2.5</span>
+                                                    <img src="https://coreservicesemail.blob.core.windows.net/icons/stars/2-stars@2x.png"
+                                                        width="80" alt="2 Stars" class="review-score-img">
+                                                    <div class="small">
+                                                        3 reviews
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <div class="address">
+                                                    <strong>Neural Turing Tech - Winona</strong><br>
+                                                    444 Winona Drive <br>
+                                                    Toronto ON M6C 3T4
+                                                </div>
+                                                <div class="bg-white review-score">
+                                                    <span class="h4 bold">2.8</span>
+                                                    <img src="https://coreservicesemail.blob.core.windows.net/icons/stars/2-stars@2x.png"
+                                                        width="80" alt="2 Stars" class="review-score-img">
+                                                    <div class="small">
+                                                        8 reviews
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <div class="address">
+                                                    <strong>Neural Turing Tech - Whistling</strong><br>
+                                                    118 Whistling Hills Drive <br>
+                                                    Scarborough ON M1V 3L1
+                                                </div>
+                                                <div class="bg-white review-score">
+                                                    <span class="h4 bold">3.0</span>
+                                                    <img src="https://coreservicesemail.blob.core.windows.net/icons/stars/3-stars@2x.png"
+                                                        width="80" alt="3 Stars" class="review-score-img">
+                                                    <div class="small">
+                                                        5 reviews
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+
+                            </section>
+
+                            <!-- <header>
+                            <div class="sub-heading row bg-dark-grey">
+                                <h3 class="h6"><strong>Casella Waste Systems:</strong> 4 Bunker Hill Industrial Park, Auburn, MA 01501</h3>
+                                <h3 class="h6 bold">October 31, 2021</h3>
+                            </div>
+                        </header> -->
+                            <section id="localRank+">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Local Rank+</h2>
+                                        <p>
+                                            Summary of Local Rank+
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/LocalRankPlus/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3 lrp-info">
+                                        <div class="bold">19/10/2021</div>
+                                        Last Report Run Date
+                                    </div>
+                                    <div class="col-3 lrp-info">
+                                        <div class="bold">Monthly</div>
+                                        Frequency Reporting
+                                    </div>
+                                    <div class="col-3 lrp-info">
+                                        <div class="bold">2</div>
+                                        Active Locations
+                                    </div>
+                                    <div class="col-3 lrp-info">
+                                        <div class="bold">6</div>
+                                        Passive Locations
+                                    </div>
+                                    <!-- <div class="col-3 lrp-info">
+                                        <div class="bold">Active</div>
+                                        Status
+                                    </div> -->
+                                </div>
+
+                                <div class="chart-container bg-grey row">
+                                    <div class="scores col-3">
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">17.11</span>
+                                                <span class="rank-update negetive">-9.39</span>
+                                            </div>
+                                            <div class="description">
+                                                Overall Ranking
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="lrp-keywords">
+                                        <div class="bold">Keywords:</div>
+                                        <ul>
+                                            <li>Waste</li>
+                                            <li>Disposal</li>
+                                            <li>Dumpster</li>
+                                            <li>Rental</li>
+                                            <li>Garbage</li>
+                                            <li>Management</li>
+                                        </ul>
+                                    </div> -->
+                                    </div>
+
+                                    <figure class="chart col-9 highchart-figure">
+                                        <div id="lrChart">
+                                            <img src="data:image/png;base64,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" data-deferred="1" class="rg_i Q4LuWd" jsname="Q4LuWd" width="100%" height="172" alt="React Column Chart Examples – ApexCharts.js" data-iml="1878.3999999761581" data-atf="true">
+                                        </div>
+                                    </figure>
+                                </div>
+
+                                <div class="bg-grey lrp-scores">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="row">
+                                                <div class="col-4 lrp-score">
+                                                    <h3 class="bold title h6">Keyword 1</h3>
+                                                    <!-- <h3 class="bold title h6">Keyword 1: Waste</h3> -->
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">2.1</span>
+                                                                <span class="rank-update positive">+0.3</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Center Point Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">6.4</span>
+                                                                <span class="rank-update positive">+1.6</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Average Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4 lrp-score">
+                                                    <h3 class="bold title h6">Keyword 2</h3>
+                                                    <!-- <h3 class="bold title h6">Keyword 2: Disposal</h3> -->
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">3.3</span>
+                                                                <span class="rank-update negetive">-0.3</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Center Point Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">4.4</span>
+                                                                <span class="rank-update positive">+0.6</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Average Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4 lrp-score">
+                                                    <h3 class="bold title h6">Keyword 3</h3>
+                                                    <!-- <h3 class="bold title h6">Keyword 3: Dumpster</h3> -->
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">1.1</span>
+                                                                <span class="rank-update positive">+2.3</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Center Point Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">3.4</span>
+                                                                <span class="rank-update positive">+1.6</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Average Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4 lrp-score">
+                                                    <h3 class="bold title h6">Keyword 4</h3>
+                                                    <!-- <h3 class="bold title h6">Keyword 4: Rental</h3> -->
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">3.1</span>
+                                                                <span class="rank-update positive">+0.1</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Center Point Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">6.4</span>
+                                                                <span class="rank-update negetive">-1.6</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Average Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4 lrp-score">
+                                                    <h3 class="bold title h6">Keyword 5</h3>
+                                                    <!-- <h3 class="bold title h6">Keyword 5: Garbage</h3> -->
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">N/A</span>
+                                                                <span class="rank-update neutral">N/A</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Center Point Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="bg-white score-container">
+                                                        <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">8</span>
+                                                                <span class="rank-update positive">+4.6</span>
+                                                            </div>
+                                                            <div class="description">
+                                                                Average Ranking
+                                                            </div>
+                                                        </div>
+                                                    </div> -->
+                                                </div>
+
+                                                <div class="col-4 lrp-score">
+                                                    <h3 class="bold title h6">Keyword 6</h3>
+                                                    <!-- <h3 class="bold title h6">Keyword 6: Management</h3> -->
+                                                    <div class="bg-white score-container">
+                                                        <div class="score">
+                                                        <div class="details">
+                                                            <span class="rank">N/A</span>
+                                                            <span class="rank-update neutral">N/A</span>
+                                                    </div>
+                                                        <div class="description">
+                                                            Center Point Ranking
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="bg-white score-container">
+                                                    <div class="score">
+                                                            <div class="details">
+                                                                <span class="rank">N/A</span>
+                                                                <span class="rank-update neutral">N/A</span>
+                                                            </div>
+                                                             <div class="description">
+                                                            Average Ranking
+                                                        </div>
+                                                    </div>
+                                                    </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-4">
+                                            <div id="lrMap"> -->
+                                                <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?size=230x380&markers=icon:https://testtoby.blob.core.windows.net/images/pin-blue.png|63.0619792,-143.7746621&markers=icon:https://testtoby.blob.core.windows.net/images/pin1.png|label:1|62.107733,-145.541936&markers=icon:https://testtoby.blob.core.windows.net/images/pin2.png|label:2|63.0619792,-145.7746621&markers=icon:https://testtoby.blob.core.windows.net/images/pin3.png|label:3|64.0668122,-145.8835917&key=AIzaSyDH6fSxLWTwtCvbocmVjYkBGVfO8gLvX5w"
+                                                alt="map" /> -->
+                                                <!-- <img src="https://testtoby.blob.core.windows.net/images/staticmap.png"
+                                                    alt="map" />
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+
+                                <!-- <div class="row">
+                                <div class="col">
+                                    <div class="leaderbord bg-grey">
+                                        <div class="lrp-leaderboard">
+                                            <h3 class="bold">Top 3 Competitors</h3>
+                
+                                            <div class="location-details">
+                                                <div class="address lrp-address">
+                                                    <span class="rank">1</span>
+                                                    <a href="https://www.google.com/maps/place/?q=place_id:ChIJRehJ9oNZwokRY65T0IFkTu0"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        Cheese Grille
+                                                    </a>
+                                                </div>
+                                                <div class="lrp-competitor d-flex">
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/UpArrow.svg"
+                                                            alt="Up arrow representing the number of times the competitor ranked above you"
+                                                            height="12">
+                                                        <span class="score-text outrank">22</span>
+                                                    </div>
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/DownArrow.svg"
+                                                            alt="Down arrow representing the number of times the competitor ranked below you"
+                                                            height="12">
+                                                        <span class="score-text doesnot-outrank">4</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <div class="address lrp-address">
+                                                    <span class="rank">2</span>
+                                                    <a href="https://www.google.com/maps/place/?q=place_id:ChIJzXuuoqtFwokRRhLPrh8uxSw"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        Grilled Cheese Society
+                                                    </a>
+                                                </div>
+                                                <div class="lrp-competitor d-flex">
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/UpArrow.svg"
+                                                            alt="Up arrow representing the number of times the competitor ranked above you"
+                                                            height="12">
+                                                        <span class="score-text outrank">8</span>
+                                                    </div>
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/DownArrow.svg"
+                                                            alt="Down arrow representing the number of times the competitor ranked below you"
+                                                            height="12">
+                                                        <span class="score-text doesnot-outrank">3</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <div class="address lrp-address">
+                                                    <span class="rank">3</span>
+                                                    <a href="https://www.google.com/maps/place/?q=place_id:ChIJH7RAjqBZwokRV8pMYVzzyMU"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        House of Grilled Cheese
+                                                    </a>
+                                                </div>
+                                                <div class="lrp-competitor d-flex">
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/UpArrow.svg"
+                                                            alt="Up arrow representing the number of times the competitor ranked above you"
+                                                            height="12">
+                                                        <span class="score-text outrank">7</span>
+                                                    </div>
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/DownArrow.svg"
+                                                            alt="Down arrow representing the number of times the competitor ranked below you"
+                                                            height="12">
+                                                        <span class="score-text doesnot-outrank">3</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+
+                            </section>
+
+                            <section id="localRank+New">
+                                <div class="d-flex justify-between align-item-center section-title">
+                                    <div>
+                                        <h2>Local Rank+</h2>
+                                        <p>
+                                            Summary of Local Rank+
+                                        </p>
+                                    </div>
+                                    <div>
+                                        <a href="https://transparensee-dashboard-beta.azurewebsites.net/Dashboard/LogIn?returnURl=Dashboard/LocalRankPlus/"
+                                            target="_blank" rel="noreferrer">View on dashboard</a>
+                                        <p class="small helper">(login may be required)</p>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-3 lrp-info">
+                                        <div class="bold">19/05/2021</div>
+                                        Last Report Run Date
+                                    </div>
+                                    <div class="col-3 lrp-info">
+                                        <div class="bold">Monthly</div>
+                                        Frequency Reporting
+                                    </div>
+                                    <div class="col-3 lrp-info">
+                                        <div class="bold">2</div>
+                                        Active Locations
+                                    </div>
+                                    <div class="col-3 lrp-info">
+                                        <div class="bold">6</div>
+                                        Passive Locations
+                                    </div>
+                                    <!-- <div class="col-3 lrp-info">
+                                        <div class="bold">Active</div>
+                                        Location Data
+                                    </div> -->
+                                </div>
+
+                                <div class="chart-container bg-grey row">
+                                    <div class="scores col-3">
+                                        <div class="score">
+                                            <div class="details">
+                                                <span class="rank">N/A</span>
+                                                <span class="rank-update neutral">N/A</span>
+                                            </div>
+                                            <div class="description">
+                                                Overall Ranking
+                                            </div>
+                                        </div>
+
+                                        <!-- <div class="lrp-keywords">
+                                        <div class="bold">Keywords:</div>
+                                        <ul>
+                                            <li>Waste</li>
+                                            <li>Disposal</li>
+                                            <li>Dumpster</li>
+                                            <li>Rental</li>
+                                            <li>Garbage</li>
+                                            <li>Management</li>
+                                        </ul>
+                                    </div> -->
+                                    </div>
+
+                                </div>
+
+                                <!-- <div class="row">
+                                <div class="col">
+                                    <div class="leaderbord bg-grey">
+                                        <div class="lrp-leaderboard">
+                                            <h3 class="bold">Top 3 Competitors</h3>
+                
+                                            <div class="location-details">
+                                                <div class="address lrp-address">
+                                                    <span class="rank">1</span>
+                                                    <a href="https://www.google.com/maps/place/?q=place_id:ChIJRehJ9oNZwokRY65T0IFkTu0"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        Cheese Grille
+                                                    </a>
+                                                </div>
+                                                <div class="lrp-competitor d-flex">
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/UpArrow.svg"
+                                                            alt="Up arrow representing the number of times the competitor ranked above you"
+                                                            height="12">
+                                                        <span class="score-text outrank">22</span>
+                                                    </div>
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/DownArrow.svg"
+                                                            alt="Down arrow representing the number of times the competitor ranked below you"
+                                                            height="12">
+                                                        <span class="score-text doesnot-outrank">4</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <div class="address lrp-address">
+                                                    <span class="rank">2</span>
+                                                    <a href="https://www.google.com/maps/place/?q=place_id:ChIJzXuuoqtFwokRRhLPrh8uxSw"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        Grilled Cheese Society
+                                                    </a>
+                                                </div>
+                                                <div class="lrp-competitor d-flex">
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/UpArrow.svg"
+                                                            alt="Up arrow representing the number of times the competitor ranked above you"
+                                                            height="12">
+                                                        <span class="score-text outrank">8</span>
+                                                    </div>
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/DownArrow.svg"
+                                                            alt="Down arrow representing the number of times the competitor ranked below you"
+                                                            height="12">
+                                                        <span class="score-text doesnot-outrank">3</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="location-details">
+                                                <div class="address lrp-address">
+                                                    <span class="rank">3</span>
+                                                    <a href="https://www.google.com/maps/place/?q=place_id:ChIJH7RAjqBZwokRV8pMYVzzyMU"
+                                                        target="_blank" rel="noopener noreferrer">
+                                                        House of Grilled Cheese
+                                                    </a>
+                                                </div>
+                                                <div class="lrp-competitor d-flex">
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/UpArrow.svg"
+                                                            alt="Up arrow representing the number of times the competitor ranked above you"
+                                                            height="12">
+                                                        <span class="score-text outrank">7</span>
+                                                    </div>
+                                                    <div class="score-col d-flex align-item-center">
+                                                        <img src="https://dashboard.dacgroup.com//Assets/img/DownArrow.svg"
+                                                            alt="Down arrow representing the number of times the competitor ranked below you"
+                                                            height="12">
+                                                        <span class="score-text doesnot-outrank">3</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+
+                            </section>
+
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>

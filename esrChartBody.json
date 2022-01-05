@@ -1,0 +1,30 @@
+{   
+    "id":1,
+    "chart":{
+        "options": {
+            "type":"PNG",
+            "title": {
+                "text": "1 Chart"
+            },
+            "xAxis": {
+                "categories": [
+                    "Jan",
+                    "Feb",
+                    "Mar"
+                ]
+            },
+            "series": [
+                {
+                    "data": [
+                        29.9,
+                        71.5,
+                        106.4
+                    ],
+                    "type": "line"
+    
+                }
+            ]
+        }
+    
+    }
+}
